@@ -1,2 +1,2 @@
 # lmu-schedule
-小爱课程表 黎明职业大学
+小爱课程表适配：黎明职业大学（https://jw.lmu.cn/）
