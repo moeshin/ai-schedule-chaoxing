@@ -58,3 +58,4 @@ function scheduleHtmlParser(html) {
         infos.push(info);
     }
     return { courseInfos: infos }
+}
