@@ -1,7 +1,11 @@
 function setWeeks(info, $teacher) {
     const weeks = [];
     try {
-        const match = $teacher[0].next.children[0].data.match(/^(\d+)-(\d+)周$/);
+        const match = $teacher[0].next.children[0].data.match(/^(\d+)(?:-(\d+))?周$/);
+        if (match[2] === undefined) {
+            info.weeks = [match[1]];
+            return;
+        }
         const end = parseInt(match[2]) + 1;
         for (let i = parseInt(match[1]); i < end; ++i) {
             weeks.push(i);
@@ -57,5 +61,5 @@ function scheduleHtmlParser(html) {
         }
         infos.push(info);
     }
-    return { courseInfos: infos }
+    return { courseInfos: infos };
 }
