@@ -1,9 +1,23 @@
-function setWeeks(info, $teacher) {
+/*
+格式：
+<br>
+<a onclick="openKckb()">课程名</a>
+课程类型（理论、实训等）
+<br>
+<a onclick="openJskb()">老师</a>
+<br>
+周
+<br>
+<a onclick="openCrkb()">教室</a>
+<br>
+*/
+
+function getWeeks(info, str) {
     const weeks = [];
     try {
-        const match = $teacher[0].next.children[0].data.match(/^(\d+)(?:-(\d+))?周$/);
+        const match = str.match(/^(\d+)(?:-(\d+))?周$/);
         if (match[2] === undefined) {
-            info.weeks = [match[1]];
+            return [match[1]];
             return;
         }
         const end = parseInt(match[2]) + 1;
@@ -11,10 +25,10 @@ function setWeeks(info, $teacher) {
             weeks.push(i);
         }
     } catch {}
-    info.weeks = weeks;
+    return weeks;
 }
 
-function setSections(info, attrs) {
+function getPreset(attrs) {
     const sections = [];
     const match = attrs.id.match(/^Cell(\d)(\d+)$/);
     let i = parseInt(match[2])
@@ -25,8 +39,58 @@ function setSections(info, attrs) {
             section: i
         });
     }
-    info.day = parseInt(match[1]);
-    info.sections = sections;
+    return {
+        day: parseInt(match[1]),
+        sections: sections
+    }
+}
+
+function hasOnClick(node, fun) {
+    const attrs = node.attribs;
+    return attrs && attrs.onclick.trim().startsWith(fun + '(');
+}
+
+function parseCell(infos, preset, node) {
+    const info = Object.assign({}, preset);
+    let child;
+    if (!(
+        (node = node.firstChild) &&
+        node.name === 'a' &&
+        hasOnClick(node, 'openKckb') &&
+        (child = node.firstChild) &&
+        child.type === 'text' &&
+        typeof (info.name = child.data) === 'string' &&
+        (node = node.next) &&
+        node.type === 'text' &&
+        (info.name += node.data) &&
+        (node = node.next) &&
+        node.name === 'br' &&
+        (node = node.firstChild) &&
+        node.name === 'a' &&
+        hasOnClick(node, 'openJskb') &&
+        (child = node.firstChild) &&
+        child.type === 'text' &&
+        typeof (info.teacher = child.data) === 'string' &&
+        (node = node.next) &&
+        node.name === 'br' &&
+        (node = node.firstChild) &&
+        node.type === 'text' &&
+        (info.weeks = getWeeks(info, node.data)) &&
+        (node = node.next) &&
+        node.name === 'br' &&
+        (node = node.firstChild) &&
+        node.name === 'a' &&
+        hasOnClick(node, 'openCrkb')
+    )) {
+       return;
+    }
+    if ((child = node.firstChild) && child.type === 'text') {
+        info.position = child.data;
+    }
+    infos.push(info);
+    if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name == 'br') {
+        parseCell(infos, preset, child);
+    }
 }
 
 function scheduleHtmlParser(html) {
@@ -35,31 +99,13 @@ function scheduleHtmlParser(html) {
     const tdsLen = tds.length;
     for (let i = 0; i < tdsLen; ++i) {
         const td = tds[i];
-        if (!td.children || td.children.length == 0) {
+        const children = td.children;
+        if (!children || children.length == 0) {
             continue;
         }
-        const $td = $(td);
-        const id = td.attribs.id;
-
-        const $name = $td.find('a[onclick^=openKckb]');
-        let = name = $name.text();
-        const nameNext = $name[0].next;
-        if (nameNext.type = 'text') {
-            name += nameNext.data;
-        }
-
-        const $teacher = $td.find('a[onclick^=openJskb]');
-        const info = {
-            name: name,
-            teacher: $teacher.text()
-        };
-        setWeeks(info, $teacher);
-        setSections(info, td.attribs);
-        const position = $td.find('a[onclick^=openCrkb]').text();
-        if (position) {
-            info.position = position;
-        }
-        infos.push(info);
+        const preset = getPreset(td.attribs);
+        parseCell(infos, preset, children[0]);
     }
+    console.log(infos);
     return { courseInfos: infos };
 }
