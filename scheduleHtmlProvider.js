@@ -1,3 +1,12 @@
+/**
+ * 提取课程表
+ *
+ * @link https://github.com/moeshin/ai-schedule-chaoxing
+ * @param iframeContent {string}
+ * @param frameContent {string}
+ * @param dom {Document}
+ * @returns {string}
+ */
 function scheduleHtmlProvider(iframeContent = "", frameContent = "", dom = document) {
     const iframe = dom.querySelector('iframe[src$="/queryKbForXsd"]');
     const path = '/admin/pkgl/xskb/queryKbForXsd';
