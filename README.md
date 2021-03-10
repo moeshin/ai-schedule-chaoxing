@@ -1,4 +1,5 @@
 # ai-schedule-chaoxing
+
 小爱课程表适配：超星综合教学管理系统
 
 ### 已适配
@@ -7,3 +8,4 @@
 | ---- | ---- |
 | 黎明职业大学 | http://jw.lmu.cn/admin |
 | 吉林农业大学 | http://202.198.1.52/admin |
+| 闽江师范高等专科学校 | http://mjsz.jw.chaoxing.com/admin |

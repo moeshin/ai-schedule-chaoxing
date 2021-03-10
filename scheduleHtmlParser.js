@@ -3,7 +3,7 @@
  *
  * @link https://github.com/moeshin/ai-schedule-chaoxing
  * @param html
- * @returns {{sectionTimes: [], courseInfos: []}}
+ * @returns {{courseInfos: [], sectionTimes: ?}}
  */
 function scheduleHtmlParser(html) {
     const infos = [];
