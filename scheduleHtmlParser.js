@@ -18,7 +18,6 @@ function getWeeks(info, str) {
         const match = str.match(/^(\d+)(?:-(\d+))?周$/);
         if (match[2] === undefined) {
             return [match[1]];
-            return;
         }
         const end = parseInt(match[2]) + 1;
         for (let i = parseInt(match[1]); i < end; ++i) {
@@ -82,13 +81,13 @@ function parseCell(infos, preset, node) {
         node.name === 'a' &&
         hasOnClick(node, 'openCrkb')
     )) {
-       return;
+        return;
     }
     if ((child = node.firstChild) && child.type === 'text') {
         info.position = child.data;
     }
     infos.push(info);
-    if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name == 'br') {
+    if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name === 'br') {
         parseCell(infos, preset, child);
     }
 }
@@ -100,12 +99,27 @@ function scheduleHtmlParser(html) {
     for (let i = 0; i < tdsLen; ++i) {
         const td = tds[i];
         const children = td.children;
-        if (!children || children.length == 0) {
+        if (!children || children.length === 0) {
             continue;
         }
         const preset = getPreset(td.attribs);
         parseCell(infos, preset, children[0]);
     }
     console.log(infos);
-    return { courseInfos: infos };
+    return {
+        courseInfos: infos,
+        sectionTimes: [
+            {"section":1,"startTime":"08:00","endTime":"08:45"},
+            {"section":2,"startTime":"08:55","endTime":"09:40"},
+            {"section":3,"startTime":"10:00","endTime":"10:45"},
+            {"section":4,"startTime":"10:55","endTime":"11:40"},
+            {"section":5,"startTime":"14:30","endTime":"15:15"},
+            {"section":6,"startTime":"15:25","endTime":"16:10"},
+            {"section":7,"startTime":"16:20","endTime":"17:05"},
+            {"section":8,"startTime":"17:15","endTime":"18:00"},
+            {"section":9,"startTime":"19:00","endTime":"19:45"},
+            {"section":10,"startTime":"19:55","endTime":"20:40"},
+            {"section":11,"startTime":"20:50","endTime":"21:35"}
+        ]
+    };
 }
