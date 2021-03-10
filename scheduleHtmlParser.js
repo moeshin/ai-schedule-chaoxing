@@ -30,21 +30,51 @@ function scheduleHtmlParser(html) {
 /**
  * 获取周
  *
+ * 1周
+ * 1-2周
+ * 1-1,3-3周
+ * 1-9(单)周
+ * 2-10(双)周
+ *
  * @param str {string} 周，例如：1-2周、1周
  * @returns {[]|*[]}
  */
 function getWeeks(str) {
+    str = str.trim();
     const weeks = [];
-    try {
-        const match = str.match(/^(\d+)(?:-(\d+))?周$/);
-        if (match[2] === undefined) {
-            return [match[1]];
+    const strLen = str.length;
+    if (strLen > 1 && str.substr(-1) === '周') {
+        str = str.substr(0, strLen - 1);
+        const arr = str.split(',');
+        for (const w of arr) {
+            const match = w.match(/^(\d+)(?:-(\d+)(?:\(([单双])\))?)?$/);
+            if (match[2] === undefined) {
+                weeks.push(match[1]);
+                continue;
+            }
+            const end = parseInt(match[2]) + 1;
+            const state = match[3];
+            let i = parseInt(match[1])
+            if (state === undefined) {
+                for (; i < end; ++i) {
+                    weeks.push(i);
+                }
+                continue;
+            }
+            if (i % 2 === 0) {
+                if (state === '单') {
+                    ++i;
+                }
+            } else {
+                if (state === '双') {
+                    ++i;
+                }
+            }
+            for (; i < end; i += 2) {
+                weeks.push(i);
+            }
         }
-        const end = parseInt(match[2]) + 1;
-        for (let i = parseInt(match[1]); i < end; ++i) {
-            weeks.push(i);
-        }
-    } catch {}
+    }
     return weeks;
 }
 
