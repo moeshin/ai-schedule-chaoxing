@@ -22,7 +22,7 @@ function scheduleHtmlParser(html) {
     return {
         courseInfos: infos,
 
-        //https://github.com/moeshin/ai-schedule-chaoxing/tree/main/section-times
+        // https://github.com/moeshin/ai-schedule-chaoxing/tree/main/section-times
         // sectionTimes: []
     };
 }

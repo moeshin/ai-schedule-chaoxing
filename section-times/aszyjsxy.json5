@@ -1,0 +1,13 @@
+// 鞍山职业技术学院
+[
+  {"section":1,"startTime":"08:20","endTime":"09:05"},
+  {"section":2,"startTime":"09:05","endTime":"09:50"},
+  {"section":3,"startTime":"10:10","endTime":"10:55"},
+  {"section":4,"startTime":"10:55","endTime":"11:40"},
+  {"section":5,"startTime":"13:00","endTime":"13:45"},
+  {"section":6,"startTime":"13:45","endTime":"14:30"},
+  {"section":7,"startTime":"14:50","endTime":"15:35"},
+  {"section":8,"startTime":"15:35","endTime":"16:20"},
+  {"section":9,"startTime":"18:00","endTime":"18:45"},
+  {"section":10,"startTime":"18:45","endTime":"19:30"}
+]
