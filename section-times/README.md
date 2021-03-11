@@ -1,8 +1,10 @@
 # 课表时间
 
+可以无参数、无登录
+
 ### 请求
 
-`http://jw.lmu.cn/admin/api/getKbxx`
+`/admin/api/getKbxx`
 
 | 参数 | 描述 |
 | ---- | ---- |
@@ -13,30 +15,4 @@
 
 ### 解析
 
-```javascript
-(function () {
-    function getTime(node) {
-        return node.textContent.trim().replace(/(\d+):(\d+)/, function (m, m1, m2) {
-            return (m1.length === 1 ? '0' + m1 : m1) + ':' +
-                (m2.length === 1 ? '0' + m2 : m2);
-        })
-    }
-    const sectionTimes = [];
-    const spans = document.querySelectorAll('#kbsjlist td[class^=col] > span');
-    for (const span of spans) {
-        const match = span.parentElement.className.match(/^col(\d+)$/);
-        if (!match) {
-            throw new Error();
-        }
-        sectionTimes.push({
-            section: parseInt(match[1]),
-            startTime: getTime(span.firstChild),
-            endTime: getTime(span.lastChild)
-        });
-    }
-    console.log(JSON.stringify(sectionTimes)
-        .replaceAll('{', '\n    {')
-        .replace(/\]$/, '\n]')
-    );
-})();
-```
+在浏览器执行 [parse.js](parse.js) 里的代码
