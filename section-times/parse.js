@@ -28,7 +28,7 @@
             endTime: formatTime(span.lastChild)
         });
     }
-    window.sortSectionTimes = function (arr) {
+    function sortSectionTimes(arr) {
         return arr.sort(function (x, y) {
             if (x.section !== y.section) {
                 const xs = parseTime(x.startTime);
