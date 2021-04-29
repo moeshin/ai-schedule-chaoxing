@@ -22,10 +22,15 @@
         if (isNaN(section)) {
             throw span;
         }
+        const s = formatTime(span.firstChild);
+        const e = formatTime(span.lastChild);
+        if (s === e) {
+            continue;
+        }
         sectionTimes.push({
             section: section,
-            startTime: formatTime(span.firstChild),
-            endTime: formatTime(span.lastChild)
+            startTime: s,
+            endTime: e
         });
     }
     function sortSectionTimes(arr) {
