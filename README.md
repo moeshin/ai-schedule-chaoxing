@@ -15,11 +15,6 @@
 | ![hnlgzy] | 湖南理工职业技术学院 | https://hnlgzy.jw.chaoxing.com/admin |
 | ![tzvtc] | 台州职业技术学院 | https://tzvtc.jw.chaoxing.com/admin |
 
-### 待适配，缺少账号
-
-| 学校 | 系统链接 |
-| ---- | ---- |
-
 
 [lmu]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40413
 [jlau]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D37267
