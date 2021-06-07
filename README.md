@@ -13,18 +13,19 @@
 | ![whtcc] | 武汉交通职业学院 | http://221.232.65.53:8081/admin |
 | ![ustl] | 辽宁科技大学 | https://ustl.jw.chaoxing.com/admin |
 | ![hnlgzy] | 湖南理工职业技术学院 | https://hnlgzy.jw.chaoxing.com/admin |
+| ![tzvtc] | 台州职业技术学院 | https://tzvtc.jw.chaoxing.com/admin |
 
 ### 待适配，缺少账号
 
 | 学校 | 系统链接 |
 | ---- | ---- |
-| 台州职业技术学院 | https://tzvtc.jw.chaoxing.com/admin |
 
 
-[lmu]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D37266
+[lmu]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40413
 [jlau]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D37267
 [mjsz]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D37264
 [aszyjsxy]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D37312
 [whtcc]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D37317
 [ustl]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D39947
 [hnlgzy]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40007
+[tzvtc]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40414
