@@ -1,4 +1,3 @@
-// 黎明职业职业大学
 (function () {
     const mouth = new Date().getMonth() + 1;
     return mouth >= 6 && mouth <= 9 ? [
