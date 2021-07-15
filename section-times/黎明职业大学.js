@@ -25,4 +25,4 @@
         {"section":10,"startTime":"19:55","endTime":"20:40"},
         {"section":11,"startTime":"20:50","endTime":"21:35"}
     ];
-})();
+})()
