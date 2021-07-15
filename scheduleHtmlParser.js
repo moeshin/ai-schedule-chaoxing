@@ -6,7 +6,7 @@
  * @returns {{courseInfos: [], sectionTimes: ?}}
  */
 function scheduleHtmlParser(html) {
-    const infos = [];
+    let infos = [];
     const tds = $('tbody td.cell');
     const tdsLen = tds.length;
     for (let i = 0; i < tdsLen; ++i) {
@@ -18,6 +18,7 @@ function scheduleHtmlParser(html) {
         const preset = getPreset(td.attribs);
         parseCell(infos, preset, children[0]);
     }
+    infos = format(infos);
     console.log(infos);
     return {
         courseInfos: infos,
@@ -48,13 +49,13 @@ function getWeeks(str) {
         const arr = str.split(',');
         for (const w of arr) {
             const match = w.match(/^(\d+)(?:-(\d+)(?:\(([单双])\))?)?$/);
+            let i = parseInt(match[1]);
             if (match[2] === undefined) {
-                weeks.push(match[1]);
+                weeks.push(i);
                 continue;
             }
             const end = parseInt(match[2]) + 1;
             const state = match[3];
-            let i = parseInt(match[1])
             if (state === undefined) {
                 for (; i < end; ++i) {
                     weeks.push(i);
@@ -161,6 +162,79 @@ function parseCell(infos, preset, node) {
     if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name === 'br') {
         parseCell(infos, preset, child);
     }
+}
+
+function hash(...args) {
+    return args.join('-');
+}
+
+function setIfDefined(obj, teacher, position) {
+    if (teacher) {
+        obj.teacher = teacher;
+    }
+    if (position) {
+        obj.position = position;
+    }
+}
+
+function format(infos) {
+    const map1 = {};
+    for (const info of infos) {
+        const weeks = info.weeks;
+        const day = info.day;
+        const name = info.name;
+        const teacher = info.teacher;
+        const position = info.position;
+        for (const week of weeks) {
+            const k = hash(week, day, name, teacher, position);
+            let obj = map1[k];
+            if (obj === undefined) {
+                map1[k] = obj = {
+                    name,
+                    day,
+                    week,
+                    sections: []
+                };
+                setIfDefined(obj, teacher, position);
+                obj.sections.toString = function () {
+                    let str = '';
+                    let first = true;
+                    for (const section of this) {
+                        if (first) {
+                            first = false;
+                        } else {
+                            str += ',';
+                        }
+                        str += section.section;
+                    }
+                    return str;
+                }
+            }
+            obj.sections.push(...info.sections);
+        }
+    }
+    const map2 = {};
+    for (const k in map1) {
+        const info = map1[k];
+        const day = info.day;
+        const sections = info.sections;
+        const name = info.name;
+        const teacher = info.teacher;
+        const position = info.position;
+        const key = hash(day, sections, name, teacher, position);
+        let obj = map2[key];
+        if (obj === undefined) {
+            map2[key] = obj = {
+                name,
+                day,
+                sections,
+                weeks: []
+            };
+            setIfDefined(obj, teacher, position);
+        }
+        obj.weeks.push(info.week);
+    }
+    return Object.values(map2);
 }
 
 /*
