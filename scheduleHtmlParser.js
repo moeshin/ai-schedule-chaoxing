@@ -6,17 +6,22 @@
  * @returns {{courseInfos: [], sectionTimes: ?}}
  */
 function scheduleHtmlParser(html) {
-    const infos = [];
-    const tds = $('tbody td.cell');
-    const tdsLen = tds.length;
-    for (let i = 0; i < tdsLen; ++i) {
-        const td = tds[i];
-        const children = td.children;
-        if (!children || children.length === 0) {
-            continue;
+    let infos;
+    if (html.substr(0, 1) === '[') {
+        infos = JSON.parse(html);
+    } else {
+        infos = [];
+        const tds = $('tbody td.cell');
+        const tdsLen = tds.length;
+        for (let i = 0; i < tdsLen; ++i) {
+            const td = tds[i];
+            const children = td.children;
+            if (!children || children.length === 0) {
+                continue;
+            }
+            const preset = getPreset(td.attribs);
+            parseCell(infos, preset, children[0]);
         }
-        const preset = getPreset(td.attribs);
-        parseCell(infos, preset, children[0]);
     }
     console.log(infos);
     return {
