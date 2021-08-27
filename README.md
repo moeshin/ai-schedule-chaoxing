@@ -8,7 +8,7 @@
 | ---- | ---- | ---- |
 | ![黎明职业大学] | 黎明职业大学 | https://jw.lmu.cn/admin |
 | ![吉林农业大学] | 吉林农业大学 | http://202.198.1.52/admin |
-| ![闽江师范高等专科学校] | 闽江师范高等专科学校 | https://mjsz.jw.chaoxing.com/admin |
+| ![闽江师范高等专科学校] | 闽江师范高等专科学校 | https://edums.app.fzmjtc.cn/admin |
 | ![鞍山职业技术学院] | 鞍山职业技术学院 | https://aszyjsxy.jw.chaoxing.com/admin |
 | ![武汉交通职业学院] | 武汉交通职业学院 | http://221.232.65.53:8081/admin |
 | ![辽宁科技大学] | 辽宁科技大学 | https://ustl.jw.chaoxing.com/admin |
