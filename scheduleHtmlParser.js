@@ -155,9 +155,7 @@ function parseCell(infos, preset, node) {
     )) {
         return;
     }
-    if ((child = node.firstChild) && child.type === 'text') {
-        info.position = child.data;
-    }
+    info.position = (child = node.firstChild) && child.type === 'text' ? child.data : '';
     infos.push(info);
     if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name === 'br') {
         parseCell(infos, preset, child);
@@ -166,15 +164,6 @@ function parseCell(infos, preset, node) {
 
 function hash(...args) {
     return args.join('-');
-}
-
-function setIfDefined(obj, teacher, position) {
-    if (teacher) {
-        obj.teacher = teacher;
-    }
-    if (position) {
-        obj.position = position;
-    }
 }
 
 function format(infos) {
@@ -191,11 +180,12 @@ function format(infos) {
             if (obj === undefined) {
                 map1[k] = obj = {
                     name,
+                    teacher,
+                    position,
                     day,
                     week,
                     sections: []
                 };
-                setIfDefined(obj, teacher, position);
                 obj.sections.toString = function () {
                     let str = '';
                     let first = true;
@@ -226,11 +216,12 @@ function format(infos) {
         if (obj === undefined) {
             map2[key] = obj = {
                 name,
+                teacher,
+                position,
                 day,
                 sections,
                 weeks: []
             };
-            setIfDefined(obj, teacher, position);
         }
         obj.weeks.push(info.week);
     }
