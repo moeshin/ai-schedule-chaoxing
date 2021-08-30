@@ -125,7 +125,7 @@ function parseCell(infos, preset, node) {
     const info = Object.assign({}, preset);
     let child;
     if (!(
-        (node = node.firstChild) &&
+        (node.name === 'br' ? (node = node.firstChild) : true) &&
         node.name === 'a' &&
         hasOnClick(node, 'openKckb') &&
         (child = node.firstChild) &&
@@ -143,8 +143,7 @@ function parseCell(infos, preset, node) {
         child.type === 'text' &&
         typeof (info.teacher = child.data) === 'string' &&
         (node = node.next) &&
-        node.name === 'br' &&
-        (node = node.firstChild) &&
+        (node.name === 'br' ? (node = node.firstChild) : true) &&
         node.type === 'text' &&
         (info.weeks = getWeeks(node.data)) &&
         (node = node.next) &&
