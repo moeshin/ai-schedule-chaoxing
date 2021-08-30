@@ -134,6 +134,7 @@ function parseCell(infos, preset, node) {
         (node = node.next) &&
         node.type === 'text' &&
         (info.name += node.data) &&
+        (info.name = subString(info.name)) &&
         (node = node.next) &&
         node.name === 'br' &&
         (node = node.firstChild) &&
@@ -142,6 +143,7 @@ function parseCell(infos, preset, node) {
         (child = node.firstChild) &&
         child.type === 'text' &&
         typeof (info.teacher = child.data) === 'string' &&
+        (info.teacher = subString(info.teacher)) &&
         (node = node.next) &&
         (node.name === 'br' ? (node = node.firstChild) : true) &&
         node.type === 'text' &&
@@ -152,9 +154,10 @@ function parseCell(infos, preset, node) {
         node.name === 'a' &&
         hasOnClick(node, 'openCrkb')
     )) {
+        console.error(node, child, info);
         return;
     }
-    info.position = (child = node.firstChild) && child.type === 'text' ? child.data : '';
+    info.position = subString((child = node.firstChild) && child.type === 'text' ? child.data : '');
     infos.push(info);
     if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name === 'br') {
         parseCell(infos, preset, child);
@@ -225,6 +228,21 @@ function format(infos) {
         obj.weeks.push(info.week);
     }
     return Object.values(map2);
+}
+
+function subString(str, length = 19) {
+    const len = str.length;
+    let i = 0;
+    let code;
+    for (; i < len && length > 0; ++i) {
+        code = str.charCodeAt(i);
+        while (--length > 0 && (code /= 0x100) >= 1) {
+        }
+    }
+    if (code >= 0x100) {
+        --i;
+    }
+    return str.substring(0, i)
 }
 
 /*
