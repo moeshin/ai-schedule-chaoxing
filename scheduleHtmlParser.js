@@ -16,7 +16,11 @@ function scheduleHtmlParser(html) {
             continue;
         }
         const preset = getPreset(td.attribs);
-        parseCell(infos, preset, children[0]);
+        let node = children[0];
+        if (node.name === 'br') {
+            node = node.firstChild;
+        }
+        parseCell(infos, preset, node);
     }
     infos = format(infos);
     console.log(infos);
@@ -149,6 +153,9 @@ function parseCell(infos, preset, node) {
     info.teacher = $(node).text();
 
     console.assert(node = node.next);
+    if (node.name === 'br') {
+        console.assert(node = node.firstChild);
+    }
     console.assert(node.type === 'text');
     info.weeks = getWeeks(node.data);
 
@@ -167,6 +174,10 @@ function parseCell(infos, preset, node) {
     }
 
     infos.push(info);
+
+    if (node && node.type === 'text' && node.data === ' ') {
+        node = node.next
+    }
 
     if (node) {
         console.assert(node.name === 'br');
