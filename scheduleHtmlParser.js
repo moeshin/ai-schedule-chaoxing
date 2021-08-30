@@ -10,7 +10,7 @@ function scheduleHtmlParser(html) {
     const tds = $('tbody td.cell');
     const tdsLen = tds.length;
     for (let i = 0; i < tdsLen; ++i) {
-        const td = tds[i];
+        let td = tds[i];
         const children = td.children;
         if (!children || children.length === 0) {
             continue;
@@ -119,48 +119,59 @@ function hasOnClick(node, fun) {
  *
  * @param infos {[]} 全部课程信息
  * @param preset {{}} 预设
- * @param node cheerio 第一个节点
+ * @param node {{}} 第一个节点
  */
 function parseCell(infos, preset, node) {
-    const info = Object.assign({}, preset);
-    let child;
-    if (!(
-        (node.name === 'br' ? (node = node.firstChild) : true) &&
-        node.name === 'a' &&
-        hasOnClick(node, 'openKckb') &&
-        (child = node.firstChild) &&
-        child.type === 'text' &&
-        typeof (info.name = child.data) === 'string' &&
-        (node = node.next) &&
-        node.type === 'text' &&
-        (info.name += node.data) &&
-        (info.name = subString(info.name)) &&
-        (node = node.next) &&
-        node.name === 'br' &&
-        (node = node.firstChild) &&
-        node.name === 'a' &&
-        hasOnClick(node, 'openJskb') &&
-        (child = node.firstChild) &&
-        child.type === 'text' &&
-        typeof (info.teacher = child.data) === 'string' &&
-        (info.teacher = subString(info.teacher)) &&
-        (node = node.next) &&
-        (node.name === 'br' ? (node = node.firstChild) : true) &&
-        node.type === 'text' &&
-        (info.weeks = getWeeks(node.data)) &&
-        (node = node.next) &&
-        node.name === 'br' &&
-        (node = node.firstChild) &&
-        node.name === 'a' &&
-        hasOnClick(node, 'openCrkb')
-    )) {
-        console.error(node, child, info);
-        return;
+    const info = Object.assign({
+        position: ''
+    }, preset);
+
+    if (node.type === 'text') {
+        info.position += node.data;
+        console.assert(node = node.next);
+        console.assert(node.name === 'br');
+        console.assert(node = node.firstChild);
     }
-    info.position = subString((child = node.firstChild) && child.type === 'text' ? child.data : '');
+
+    console.assert(node.name === 'a');
+    console.assert(hasOnClick(node, 'openKckb'));
+    info.name = $(node).text();
+
+    console.assert(node = node.next);
+    console.assert(node.type === 'text');
+    info.name += node.data;
+
+    console.assert(node = node.next);
+    console.assert(node.name === 'br');
+    console.assert(node = node.firstChild);
+    console.assert(node.name === 'a');
+    console.assert(hasOnClick(node, 'openJskb'));
+    info.teacher = $(node).text();
+
+    console.assert(node = node.next);
+    console.assert(node.type === 'text');
+    info.weeks = getWeeks(node.data);
+
+    console.assert(node = node.next);
+    console.assert(node.name === 'br');
+
+    if ((node = node.firstChild) && node.name === 'a') {
+        console.assert(hasOnClick(node, 'openCrkb'));
+        if (info.position.length !== 0) {
+            info.position += '-';
+        }
+        info.position += $(node).text();
+        console.assert(node = node.next);
+        console.assert(node.name === 'br');
+        node = node.firstChild;
+    }
+
     infos.push(info);
-    if ((node = node.next) && node.name === 'br' && (child = node.lastChild) && child.name === 'br') {
-        parseCell(infos, preset, child);
+
+    if (node) {
+        console.assert(node.name === 'br');
+        console.assert(node = node.firstChild);
+        parseCell(infos, preset, node);
     }
 }
 
@@ -230,31 +241,14 @@ function format(infos) {
     return Object.values(map2);
 }
 
-function subString(str, length = 19) {
-    const len = str.length;
-    let i = 0;
-    let code;
-    for (; i < len && length > 0; ++i) {
-        code = str.charCodeAt(i);
-        while (--length > 0 && (code /= 0x100) >= 1) {
-        }
-    }
-    if (code >= 0x100) {
-        --i;
-    }
-    return str.substring(0, i)
-}
-
 /*
-格式：
-<br>
-<a onclick="openKckb()">课程名</a>
-课程类型（理论、实训等）
-<br>
-<a onclick="openJskb()">老师</a>
-<br>
-周
-<br>
-<a onclick="openCrkb()">教室</a>
-<br>
+完整格式：
+校区<br>
+<a onclick="openKckb()">课程名</a>课程类型（理论、实训等）<br>
+<a onclick="openJskb()">老师</a><br>
+周次<br>
+<a onclick="openCrkb()">教室</a><br>
+
+注意：
+校区与教室可能不存在
 */
