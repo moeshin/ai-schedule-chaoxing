@@ -20,7 +20,11 @@ function scheduleHtmlParser(html) {
         if (node.name === 'br') {
             node = node.firstChild;
         }
-        parseCell(infos, preset, node);
+        try {
+            parseCell(infos, preset, node);
+        } catch (e) {
+            console.error(i, e, td);
+        }
     }
     infos = format(infos);
     console.log(infos);
@@ -30,6 +34,12 @@ function scheduleHtmlParser(html) {
         // https://github.com/moeshin/ai-schedule-chaoxing/tree/main/section-times
         // sectionTimes: []
     };
+}
+
+function assert(b) {
+    if (!b) {
+        throw 'Assert'
+    }
 }
 
 /**
@@ -132,44 +142,44 @@ function parseCell(infos, preset, node) {
 
     if (node.type === 'text') {
         info.position += node.data;
-        console.assert(node = node.next);
-        console.assert(node.name === 'br');
-        console.assert(node = node.firstChild);
+        assert(node = node.next);
+        assert(node.name === 'br');
+        assert(node = node.firstChild);
     }
 
-    console.assert(node.name === 'a');
-    console.assert(hasOnClick(node, 'openKckb'));
+    assert(node.name === 'a');
+    assert(hasOnClick(node, 'openKckb'));
     info.name = $(node).text();
 
-    console.assert(node = node.next);
-    console.assert(node.type === 'text');
+    assert(node = node.next);
+    assert(node.type === 'text');
     info.name += node.data;
 
-    console.assert(node = node.next);
-    console.assert(node.name === 'br');
-    console.assert(node = node.firstChild);
-    console.assert(node.name === 'a');
-    console.assert(hasOnClick(node, 'openJskb'));
+    assert(node = node.next);
+    assert(node.name === 'br');
+    assert(node = node.firstChild);
+    assert(node.name === 'a');
+    assert(hasOnClick(node, 'openJskb'));
     info.teacher = $(node).text();
 
-    console.assert(node = node.next);
+    assert(node = node.next);
     if (node.name === 'br') {
-        console.assert(node = node.firstChild);
+        assert(node = node.firstChild);
     }
-    console.assert(node.type === 'text');
+    assert(node.type === 'text');
     info.weeks = getWeeks(node.data);
 
-    console.assert(node = node.next);
-    console.assert(node.name === 'br');
+    assert(node = node.next);
+    assert(node.name === 'br');
 
     if ((node = node.firstChild) && node.name === 'a') {
-        console.assert(hasOnClick(node, 'openCrkb'));
+        assert(hasOnClick(node, 'openCrkb'));
         if (info.position.length !== 0) {
             info.position += '-';
         }
         info.position += $(node).text();
-        console.assert(node = node.next);
-        console.assert(node.name === 'br');
+        assert(node = node.next);
+        assert(node.name === 'br');
         node = node.firstChild;
     }
 
@@ -180,8 +190,8 @@ function parseCell(infos, preset, node) {
     }
 
     if (node) {
-        console.assert(node.name === 'br');
-        console.assert(node = node.firstChild);
+        assert(node.name === 'br');
+        assert(node = node.firstChild);
         parseCell(infos, preset, node);
     }
 }
