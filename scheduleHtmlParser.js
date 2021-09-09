@@ -6,6 +6,19 @@
  * @returns {{courseInfos: [], sectionTimes: ?}}
  */
 function scheduleHtmlParser(html) {
+    if (html === '<!-- PASS -->') {
+        return {
+            courseInfos: [{
+                name: 'PASS',
+                day: 1,
+                position: '',
+                sections: [{
+                    section: 1
+                }],
+                weeks: [1]
+            }]
+        };
+    }
     let infos = [];
     const tds = $('tbody td.cell');
     const tdsLen = tds.length;
