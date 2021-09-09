@@ -14,6 +14,7 @@
 | ![辽宁科技大学] | 辽宁科技大学 | https://ustl.jw.chaoxing.com/admin |
 | ![湖南理工职业技术学院] | 湖南理工职业技术学院 | https://hnlgzy.jw.chaoxing.com/admin |
 | ![台州职业技术学院] | 台州职业技术学院 | https://tzvtc.jw.chaoxing.com/admin |
+| ![青岛农业大学海都学院] | 青岛农业大学海都学院 | https://hdxy.jw.chaoxing.com/admin |
 
 
 [黎明职业大学]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40413
@@ -24,3 +25,4 @@
 [辽宁科技大学]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D39947
 [湖南理工职业技术学院]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40007
 [台州职业技术学院]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D40414
+[青岛农业大学海都学院]: https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url=https%3A%2F%2Fopen-schedule.ai.xiaomi.com%2Fapi%2Fcoder%3Ftb_id%3D6741
