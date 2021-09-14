@@ -2,32 +2,35 @@
 # -*- coding: UTF-8 -*-
 import os
 
-
-def replace(text):
-    return TEXT.replace(TAG, SPACE + 'sectionTimes: ' + text.strip().replace('\n', SPACE))
-
+import utils
 
 SPACE = '\n' + 8 * ' '
-TAG = SPACE + '// sectionTimes: []'
-DIR = 'section-times'
-OUT = 'out'
+TAG = SPACE + '// sectionTimes: []\n'
+SRC_DIR = 'section-times'
+OUT_DIR = 'out'
 
-i = open('scheduleHtmlParser.js', encoding='utf-8')
-TEXT = i.read()
-i.close()
+if not os.path.exists(OUT_DIR):
+    os.mkdir(OUT_DIR)
 
-if not os.path.exists(OUT):
-    os.mkdir(OUT)
+TEXT = utils.read_text('scheduleHtmlParser.js')
+INDEX = TEXT.index(TAG)
+TEXT_START = TEXT[:INDEX]
+TEXT_END = TEXT[INDEX + len(TAG) - 1:]
 
-for name in os.listdir(DIR):
-    if name == 'parse.js' or name == 'README.md':
+schools = utils.load_schools()
+for name in schools:
+    school = schools[name]
+    ext_name = school.get(SRC_DIR)
+    if ext_name is None:
         continue
-    path = os.path.join(DIR, name)
-    if not os.path.isfile(path):
-        continue
-    name = name[:name.rindex('.')]
-    with open(path, encoding='utf-8') as i:
-        out = os.path.join(OUT, name + '.js')
-        print(out)
-        with open(out, 'w', encoding='utf-8') as o:
-            o.write(replace(i.read()))
+    print(name)
+    src_name = name + '.' + ext_name
+    src_path = os.path.join(SRC_DIR, src_name)
+    out_path = os.path.join(OUT_DIR, name + '.js')
+    text = utils.read_text(src_path)
+    text = text.strip().replace('\n', SPACE)
+    text = SPACE + 'sectionTimes: ' + text
+    with utils.open_text(out_path, 'w') as f:
+        f.write(TEXT_START)
+        f.write(text)
+        f.write(TEXT_END)
