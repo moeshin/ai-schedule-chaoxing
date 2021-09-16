@@ -66,10 +66,13 @@ def read(path):
 
 def __usage():
     print("""说明：
-后台批量上传到自测
+后台批量上传，快进到自测
 在电脑端浏览器的开发者后台调试、测试至少完成一个学校后再使用此功能
 
 python3 upload.py <cookie> [学校名称]
+
+如没有「学校名称」将全部上传
+在 schools.json 中设置 auto 为 false，全部上传时此学校不会上传
 
 需要登录后 open-schedule.ai.xiaomi.com Cookie 中 serviceToken、serviceToken.sig 的值，注意要用引号包裹
 """)
