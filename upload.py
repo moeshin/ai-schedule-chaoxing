@@ -6,10 +6,11 @@ import sys
 import json
 import http.client
 
+import cfg_schools
 import utils
 
 
-def api_upload(cookie, name, url, provider, parser) -> dict:
+def api_upload(cookie, name, url, provider, parser) -> [dict, str]:
     conn = http.client.HTTPSConnection('open-schedule.ai.xiaomi.com')
     payload = json.dumps({
         'url': url,
@@ -26,10 +27,16 @@ def api_upload(cookie, name, url, provider, parser) -> dict:
         'Content-Type': 'application/json',
         'Cookie': cookie,
     }
-    conn.request("POST", "/api/files", payload, header)
-    res = conn.getresponse()
-    data = res.read()
-    return json.loads(data.decode('utf-8'))
+    try:
+        conn.request("POST", "/api/files", payload, header)
+        with conn.getresponse() as res:
+            data = res.read()
+            try:
+                return json.loads(data.decode(utils.ENCODING))
+            except json.JSONDecoder:
+                return data
+    finally:
+        conn.close()
 
 
 def upload(cookie, name, school: dict):
@@ -42,10 +49,11 @@ def upload(cookie, name, school: dict):
     else:
         parser = default_parser
     data = api_upload(cookie, name, school['url'], default_provider, parser)
-    if data['code'] != 0:
+    if not isinstance(data, dict) or data['code'] != 0:
         print('upload response err', file=sys.stderr)
         print(data, file=sys.stderr)
         return
+    # print(data, file=sys.stderr)
     data = data['data']
     school['id'] = data['id']
 
@@ -56,8 +64,10 @@ def read(path):
     return data
 
 
-def usage():
-    print("""后台批量上传
+def __usage():
+    print("""说明：
+后台批量上传到自测
+在电脑端浏览器的开发者后台调试、测试至少完成一个学校后再使用此功能
 
 python3 upload.py <cookie> [学校名称]
 
@@ -74,13 +84,14 @@ default_parser = read('scheduleHtmlParser.js')
 def main():
     argv = sys.argv
     argc = len(argv)
-    if not argc > 1:
-        usage()
+    if argc < 2:
+        __usage()
     cookie = argv[1]
     if not cookie:
-        usage()
+        print('缺少 Cookie 参数')
+        __usage()
     name = argv[2] if argc > 2 else None
-    schools = utils.load_schools()
+    schools = cfg_schools.data
     if name is None:
         for name in schools:
             school = schools[name]
@@ -89,7 +100,7 @@ def main():
             upload(cookie, name, school)
     else:
         upload(cookie, name, schools.get(name))
-    utils.save_schools(schools)
+    cfg_schools.save()
 
 
 if __name__ == '__main__':

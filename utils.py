@@ -2,7 +2,6 @@ import json
 import typing
 
 ENCODING = 'utf-8'
-schools_file = 'schools.json'
 
 
 def open_text(file: str, mode: str = 'r', encoding=ENCODING) -> typing.TextIO:
@@ -24,14 +23,6 @@ def read_json(file: str) -> [dict, list]:
         return json.load(f)
 
 
-def write_json(file: str, obj: [dict, list]):
+def write_json(file: str, data: [dict, list]):
     with open_text(file, 'w') as f:
-        return json.dump(obj, f, indent=2, ensure_ascii=False)
-
-
-def load_schools() -> dict[str, dict]:
-    return read_json(schools_file)
-
-
-def save_schools(schools: dict):
-    write_json(schools_file, schools)
+        return json.dump(data, f, indent=2, ensure_ascii=False)

@@ -1,45 +1,45 @@
 {
   "黎明职业大学": {
     "url": "https://jw.lmu.cn/admin",
-    "id": 47948,
+    "id": 47969,
     "section-times": "js",
     "auto": false
   },
   "吉林农业大学": {
     "url": "http://202.198.1.52/admin",
-    "id": 47949,
+    "id": 47970,
     "section-times": "json"
   },
   "闽江师范高等专科学校": {
     "url": "https://edums.app.fzmjtc.cn/admin",
-    "id": 47950
+    "id": 47971
   },
   "鞍山职业技术学院": {
     "url": "https://aszyjsxy.jw.chaoxing.com/admin",
-    "id": 47951
+    "id": 47972
   },
   "武汉交通职业学院": {
     "url": "http://221.232.65.53:8081/admin",
-    "id": 47952,
+    "id": 47973,
     "section-times": "json"
   },
   "辽宁科技大学": {
     "url": "https://ustl.jw.chaoxing.com/admin",
-    "id": 47953,
+    "id": 47974,
     "section-times": "json"
   },
   "湖南理工职业技术学院": {
     "url": "https://hnlgzy.jw.chaoxing.com/admin",
-    "id": 47954,
+    "id": 47975,
     "section-times": "json"
   },
   "台州职业技术学院": {
     "url": "https://tzvtc.jw.chaoxing.com/admin",
-    "id": 47955,
+    "id": 47976,
     "section-times": "json"
   },
   "青岛农业大学海都学院": {
     "url": "https://hdxy.jw.chaoxing.com/admin",
-    "id": 47956
+    "id": 47977
   }
 }

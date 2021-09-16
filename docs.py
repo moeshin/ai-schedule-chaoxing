@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+"""
+更新 README
+
+已适配列表
+"""
 import utils
+import cfg_schools
 
 README_NAME = 'README.md'
 TAG_ADAPTED_TABLE_START = '\n<!-- Adapted Table Start -->\n'
@@ -8,7 +14,7 @@ TAG_ADAPTED_TABLE_END = '\n<!-- Adapted Table End -->\n'
 
 
 def create_adapted_table():
-    schools = utils.load_schools()
+    schools = cfg_schools.data
     table = '| 使用人数 | 学校 | 系统链接 |\n' \
             '| ---- | ---- | ---- |\n'
     for name in schools:
