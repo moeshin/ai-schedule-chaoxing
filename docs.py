@@ -21,8 +21,8 @@ def create_adapted_table():
         school = schools[name]
         school['name'] = name
         table += ('| ![%(name)s]('
-                  'https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.usedNum&url='
-                  'https%%3A%%2F%%2Fopen-schedule.ai.xiaomi.com%%2Fapi%%2Fcoder%%3Ftb_id%%3D%(id)d)'
+                  'https://img.shields.io/badge/dynamic/json?label=&style=flat-square&query=$.count&url='
+                  'https%%3A%%2F%%2Fapi.moeshin.com%%2Fai-schedule-usage-count%%2F%%3Fsid%%3D%(sid)d%%26pid%%3D%(pid)d)'
                   ' | %(name)s | %(url)s |\n' % school)
     return table
 

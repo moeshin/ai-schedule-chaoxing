@@ -1,45 +1,54 @@
 {
   "黎明职业大学": {
+    "sid": 1138,
+    "pid": 743,
     "url": "https://jw.lmu.cn/admin",
-    "id": 47969,
     "section-times": "js",
     "auto": false
   },
   "吉林农业大学": {
+    "sid": 522,
+    "pid": 300,
     "url": "http://202.198.1.52/admin",
-    "id": 47970,
     "section-times": "json"
   },
   "闽江师范高等专科学校": {
-    "url": "https://edums.app.fzmjtc.cn/admin",
-    "id": 47971
+    "sid": 1201,
+    "pid": 752,
+    "url": "https://edums.app.fzmjtc.cn/admin"
   },
   "鞍山职业技术学院": {
-    "url": "https://aszyjsxy.jw.chaoxing.com/admin",
-    "id": 47972
+    "sid": 512,
+    "pid": 1734,
+    "url": "https://aszyjsxy.jw.chaoxing.com/admin"
   },
   "武汉交通职业学院": {
+    "sid": 1719,
+    "pid": 1102,
     "url": "http://221.232.65.53:8081/admin",
-    "id": 47973,
     "section-times": "json"
   },
   "辽宁科技大学": {
+    "sid": 415,
+    "pid": 235,
     "url": "https://ustl.jw.chaoxing.com/admin",
-    "id": 47974,
     "section-times": "json"
   },
   "湖南理工职业技术学院": {
+    "sid": 1848,
+    "pid": 1194,
     "url": "https://hnlgzy.jw.chaoxing.com/admin",
-    "id": 47975,
     "section-times": "json"
   },
   "台州职业技术学院": {
+    "sid": 928,
+    "pid": 627,
     "url": "https://tzvtc.jw.chaoxing.com/admin",
-    "id": 47976,
     "section-times": "json"
   },
   "青岛农业大学海都学院": {
-    "url": "https://hdxy.jw.chaoxing.com/admin",
-    "id": 47977
+    "sid": 1417,
+    "pid": 883,
+    "url": "https://hdxy.jw.chaoxing.com/admin"
   }
 }
