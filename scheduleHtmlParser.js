@@ -51,7 +51,8 @@ function scheduleHtmlParser(html) {
 
 function assert(b) {
     if (!b) {
-        throw 'Assert'
+        console.error('Assert');
+        throw 'Assert';
     }
 }
 
@@ -153,6 +154,13 @@ function parseCell(infos, preset, node) {
         position: ''
     }, preset);
 
+    // debugger
+    {
+        let n;
+        if (node.type === 'text' && (n = node.next) && n.name === 'br' && (n = n.firstChild) && n.type === 'text') {
+            node = n;
+        }
+    }
     if (node.type === 'text') {
         info.position += node.data;
         assert(node = node.next);
@@ -277,6 +285,7 @@ function format(infos) {
 
 /*
 完整格式：
+课程代码<br>
 校区<br>
 <a onclick="openKckb()">课程名</a>课程类型（理论、实训等）<br>
 <a onclick="openJskb()">老师</a><br>
@@ -284,5 +293,5 @@ function format(infos) {
 <a onclick="openCrkb()">教室</a><br>
 
 注意：
-校区与教室可能不存在
+课程代码、校区与教室可能不存在
 */
