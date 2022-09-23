@@ -6,12 +6,12 @@ import sys
 import utils
 import cfg_schools
 
-SPACE = '\n' + 8 * ' '
-TAG = SPACE + '// sectionTimes: []\n'
-SRC_DIR = 'section-times'
+SPACE = '\n' + 4 * ' '
+TAG = SPACE + 'const _obj = null;\n'
+SRC_DIR = 'timer'
 OUT_DIR = 'out'
 
-DEFAULT = utils.read_text('scheduleHtmlParser.js')
+DEFAULT = utils.read_text('scheduleTimer.js')
 __TAG_INDEX = DEFAULT.index(TAG)
 TAG_BEFORE = DEFAULT[:__TAG_INDEX]
 TAG_AFTER = DEFAULT[__TAG_INDEX + len(TAG) - 1:]
@@ -19,27 +19,27 @@ TAG_AFTER = DEFAULT[__TAG_INDEX + len(TAG) - 1:]
 
 def build(name) -> [str, None]:
     school = cfg_schools.data[name]
-    ext_name = school.get('section-times')
+    ext_name = school.get('timer')
     if ext_name is None:
         return None
     src_path = os.path.join(SRC_DIR, name + '.' + ext_name)
     text = utils.read_text(src_path)
     text = text.strip().replace('\n', SPACE)
-    text = SPACE + 'sectionTimes: ' + text
+    text = SPACE + 'const _obj = ' + text
     return TAG_BEFORE + text + TAG_AFTER
 
 
 def __usage(code=1):
     print("""说明：
-构建 scheduleHtmlParser.js
+构建 scheduleTimer.js
 文件保存到 out 文件夹，并以学校名称命名
-只有在 schools.json 设置 section-times 属性才会构建
+只有在 schools.json 设置 timer 属性才会构建
 
 构建全部：
-python3 scheduleHtmlParser.py -a
+python3 scheduleTimer.py -a
 
 指定学校：
-python3 scheduleHtmlParser.py <学校名称>
+python3 scheduleTimer.py <学校名称>
 """)
     exit(code)
 
@@ -71,7 +71,7 @@ def main():
             print('找不到该学校：' + name)
         text = build(name)
         if text is None:
-            print('没有 section-times 属性')
+            print('没有 timer 属性')
             return
         __output(name, text)
 

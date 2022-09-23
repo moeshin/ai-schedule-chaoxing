@@ -44,7 +44,7 @@ def upload(cookie, name, school: dict):
     if school is None:
         print('找不到该学校：' + name)
         return
-    if 'section-times' in school:
+    if 'timer' in school:
         parser = read(os.path.join(OUT_DIR, name + '.js'))
     else:
         parser = default_parser

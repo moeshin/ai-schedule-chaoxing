@@ -3,21 +3,19 @@
  *
  * @link https://github.com/moeshin/ai-schedule-chaoxing
  * @param html
- * @returns {{courseInfos: [], sectionTimes: ?}}
+ * @returns {[]}
  */
 function scheduleHtmlParser(html) {
     if (html === '<!-- PASS -->') {
-        return {
-            courseInfos: [{
-                name: 'PASS',
-                day: 1,
-                position: '',
-                sections: [{
-                    section: 1
-                }],
-                weeks: [1]
-            }]
-        };
+        return [{
+            name: 'PASS',
+            day: 1,
+            position: '',
+            sections: [{
+                section: 1
+            }],
+            weeks: [1]
+        }];
     }
     let infos = [];
     const tds = $('tbody td.cell');
@@ -41,12 +39,7 @@ function scheduleHtmlParser(html) {
     }
     infos = format(infos);
     console.log(infos);
-    return {
-        courseInfos: infos,
-
-        // https://github.com/moeshin/ai-schedule-chaoxing/tree/main/section-times
-        // sectionTimes: []
-    };
+    return infos;
 }
 
 function assert(b) {

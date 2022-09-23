@@ -3,14 +3,14 @@
     "sid": 1138,
     "pid": 743,
     "url": "https://jw.lmu.cn/admin",
-    "section-times": "js",
+    "timer": "js",
     "auto": false
   },
   "吉林农业大学": {
     "sid": 522,
     "pid": 300,
     "url": "http://202.198.1.52/admin",
-    "section-times": "json"
+    "timer": "json"
   },
   "闽江师范高等专科学校": {
     "sid": 1201,
@@ -26,25 +26,25 @@
     "sid": 1719,
     "pid": 1102,
     "url": "http://221.232.65.53:8081/admin",
-    "section-times": "json"
+    "timer": "json"
   },
   "辽宁科技大学": {
     "sid": 415,
     "pid": 235,
     "url": "https://ustl.jw.chaoxing.com/admin",
-    "section-times": "json"
+    "timer": "json"
   },
   "湖南理工职业技术学院": {
     "sid": 1848,
     "pid": 1194,
     "url": "https://hnlgzy.jw.chaoxing.com/admin",
-    "section-times": "json"
+    "timer": "json"
   },
   "台州职业技术学院": {
     "sid": 928,
     "pid": 627,
     "url": "https://tzvtc.jw.chaoxing.com/admin",
-    "section-times": "json"
+    "timer": "json"
   },
   "青岛农业大学海都学院": {
     "sid": 1417,
