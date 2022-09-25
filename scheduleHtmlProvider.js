@@ -7,7 +7,7 @@
  * @param dom {Document}
  * @returns {string}
  */
-function scheduleHtmlProvider(iframeContent = "", frameContent = "", dom = document) {
+async function scheduleHtmlProvider(iframeContent = "", frameContent = "", dom = document) {
     let element = document.querySelector('[name=username]');
     if (element) {
         const value = element.value;
@@ -23,9 +23,55 @@ function scheduleHtmlProvider(iframeContent = "", frameContent = "", dom = docum
     } else if (iframe) {
         element = iframe.contentDocument;
     } else {
-//         alert('「首页」的「个人课表」并不完整！请点击「个人课表」日期右边的省略按钮，或者「学生端」>「信息查询」>「我的课表」');
-        open(path, '_self');
-        return;
+        await loadTool('AIScheduleTools');
+        const dom = await fetch(path)
+            .then(r => r.text())
+            .then(t => new DOMParser().parseFromString(t, 'text/html'));
+        const xhid = dom.querySelector('#xhid').value;
+        const xqdm = dom.querySelector('#xqdm').value;
+        const arr = [];
+        for (let option of dom.querySelectorAll('#xnxq1>option')) {
+            const value = option.value;
+            if (value) {
+                arr.push(value);
+            }
+        }
+        const xnxq = await AIScheduleSelect({
+            contentText: '学年学期',
+            selectList: arr,
+        });
+        return fetch('/admin/pkgl/xskb/sdpkkbList?' + new URLSearchParams({
+            xnxq,
+            xhid,
+            xqdm,
+        }))
+            .then(r => r.text())
+            .then(t => JSON.parse(t))
+            .then(data => data.map(info => {
+                const xq = info['xqmc'];
+                return {
+                    name: cleanTag(info['kcmc']) + getType(info['type']),
+                    teacher: cleanTag(info['tmc']),
+                    position: cleanTag(info['croommc']) + (xq ? `（${xq}）` : ''),
+                    sections: [info['djc']],
+                    weeks: info['zc'],
+                    day: info['xingqi'],
+                };
+            }))
+            .then(data => '<!-- JSON -->' + JSON.stringify(data));
     }
     return element.querySelector('table').outerHTML;
+}
+
+function cleanTag(str) {
+    console.log(str)
+    return new DOMParser().parseFromString(str, 'text/html').body.textContent.trim();
+}
+
+const TYPES = ['其他', '理论', '实验', '上机', '实践', '环节']
+function getType(type) {
+    if (type >= TYPES.length) {
+        type = 0;
+    }
+    return `（${TYPES[type]}）`;
 }

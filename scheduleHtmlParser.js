@@ -18,27 +18,31 @@ function scheduleHtmlParser(html) {
         }];
     }
     let infos = [];
-    const tds = $('tbody td.cell');
-    const tdsLen = tds.length;
-    for (let i = 0; i < tdsLen; ++i) {
-        let td = tds[i];
-        const children = td.children;
-        if (!children || children.length === 0) {
-            continue;
-        }
-        const preset = getPreset(td.attribs);
-        let node = children[0];
-        if (node.name === 'br') {
-            node = node.firstChild;
-        }
-        try {
-            parseCell(infos, preset, node);
-        } catch (e) {
-            console.error(i, e, td);
+    if (html.startsWith('<!-- JSON -->')) {
+        infos = JSON.parse(html.substring(13));
+    } else {
+        const tds = $('tbody td.cell');
+        const tdsLen = tds.length;
+        for (let i = 0; i < tdsLen; ++i) {
+            let td = tds[i];
+            const children = td.children;
+            if (!children || children.length === 0) {
+                continue;
+            }
+            const preset = getPreset(td.attribs);
+            let node = children[0];
+            if (node.name === 'br') {
+                node = node.firstChild;
+            }
+            try {
+                parseCell(infos, preset, node);
+            } catch (e) {
+                console.error(i, e, td);
+            }
         }
     }
     infos = format(infos);
-    console.log(infos);
+    console.log('infos', infos);
     return infos;
 }
 
@@ -62,39 +66,37 @@ function assert(b) {
  * @returns {[]|*[]}
  */
 function getWeeks(str) {
-    str = str.trim();
     const weeks = [];
-    const strLen = str.length;
-    if (strLen > 1 && str.substr(-1) === '周') {
-        str = str.substr(0, strLen - 1);
-        const arr = str.split(',');
-        for (const w of arr) {
-            const match = w.match(/^(\d+)(?:-(\d+)(?:\(([单双])\))?)?$/);
-            let i = parseInt(match[1]);
-            if (match[2] === undefined) {
-                weeks.push(i);
-                continue;
-            }
-            const end = parseInt(match[2]) + 1;
-            const state = match[3];
-            if (state === undefined) {
-                for (; i < end; ++i) {
-                    weeks.push(i);
-                }
-                continue;
-            }
-            if (i % 2 === 0) {
-                if (state === '单') {
-                    ++i;
-                }
-            } else {
-                if (state === '双') {
-                    ++i;
-                }
-            }
-            for (; i < end; i += 2) {
+     str = str.trim();
+    if (str.endsWith('周')) {
+        str = str.substring(0, str.length - 1);
+    }
+    for (const w of str.split(',')) {
+        const match = w.match(/^(\d+)(?:-(\d+)(?:\(([单双])\))?)?$/);
+        let i = parseInt(match[1]);
+        if (match[2] === undefined) {
+            weeks.push(i);
+            continue;
+        }
+        const end = parseInt(match[2]) + 1;
+        const state = match[3];
+        if (state === undefined) {
+            for (; i < end; ++i) {
                 weeks.push(i);
             }
+            continue;
+        }
+        if (i % 2 === 0) {
+            if (state === '单') {
+                ++i;
+            }
+        } else {
+            if (state === '双') {
+                ++i;
+            }
+        }
+        for (; i < end; i += 2) {
+            weeks.push(i);
         }
     }
     return weeks;
@@ -219,14 +221,25 @@ function hash(...args) {
     return args.join('-');
 }
 
+function sortAsc(a, b) {
+    return a - b;
+}
+
+function setToArr(set) {
+    return Array.from(set).sort(sortAsc);
+}
+
 function format(infos) {
     const map1 = {};
     for (const info of infos) {
-        const weeks = info.weeks;
+        let weeks = info.weeks;
         const day = info.day;
         const name = info.name;
         const teacher = info.teacher;
         const position = info.position;
+        if (typeof weeks === 'string') {
+            weeks = getWeeks(weeks);
+        }
         for (const week of weeks) {
             const k = hash(week, day, name, teacher, position);
             let obj = map1[k];
@@ -237,23 +250,12 @@ function format(infos) {
                     position,
                     day,
                     week,
-                    sections: []
+                    sections: new Set(),
                 };
-                obj.sections.toString = function () {
-                    let str = '';
-                    let first = true;
-                    for (const section of this) {
-                        if (first) {
-                            first = false;
-                        } else {
-                            str += ',';
-                        }
-                        str += section.section;
-                    }
-                    return str;
-                }
             }
-            obj.sections.push(...info.sections);
+            for (const v of info.sections) {
+                obj.sections.add(v);
+            }
         }
     }
     const map2 = {};
@@ -273,12 +275,20 @@ function format(infos) {
                 position,
                 day,
                 sections,
-                weeks: []
+                weeks: new Set(),
             };
         }
-        obj.weeks.push(info.week);
+        obj.weeks.add(info.week);
     }
-    return Object.values(map2);
+
+    infos = [];
+    for (const k in map2) {
+        const v = map2[k];
+        v.weeks = setToArr(v.weeks);
+        v.sections = setToArr(v.sections);
+        infos.push(v);
+    }
+    return infos;
 }
 
 /*
