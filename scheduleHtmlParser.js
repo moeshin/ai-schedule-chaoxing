@@ -151,10 +151,12 @@ function parseCell(infos, preset, node) {
     {
         let n;
         if (node.type === 'text' && (n = node.next) && n.name === 'br' && (n = n.firstChild) && n.type === 'text') {
+            // 过滤课程代码
             node = n;
         }
     }
     if (node.type === 'text') {
+        // 校区
         info.position += node.data;
         assert(node = node.next);
         assert(node.name === 'br');
@@ -166,10 +168,13 @@ function parseCell(infos, preset, node) {
     info.name = $(node).text();
 
     assert(node = node.next);
-    assert(node.type === 'text');
-    info.name += node.data;
 
-    assert(node = node.next);
+    if (node.type === 'text') {
+        // 课程类型
+        info.name += node.data;
+        assert(node = node.next);
+    }
+
     assert(node.name === 'br');
     assert(node = node.firstChild);
     assert(node.name === 'a');
@@ -286,5 +291,5 @@ function format(infos) {
 <a onclick="openCrkb()">教室</a><br>
 
 注意：
-课程代码、校区与教室可能不存在
+课程代码、校区、课程类型与教室可能不存在
 */
